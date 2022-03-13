@@ -56,6 +56,7 @@ public:
         l.head = NULL;
         l.last = NULL;
     }
+
     Linked_List(element_t e)
     {
         l.length = 0;
@@ -66,6 +67,14 @@ public:
         l.head->next = NULL;
         l.last->next = NULL;
         l.length++;
+    }
+    element_t get_last_val()
+    {
+        return l.last->data;
+    }
+    int get_length()
+    {
+        return l.length;
     }
     void insert_fin(element_t e)
     {
@@ -119,16 +128,65 @@ public:
         }
         cout << endl;
     }
-    /*void delete_()
+    void delete_val(element_t e)
     {
-    }*/
+        noed *curr = l.head, *pred = l.head;
+        while (curr != NULL)
+        {
+            if (curr->data == e && pred == curr)
+            {
+                pred->next = curr->next;
+
+                l.head = pred->next;
+                l.length--;
+                free(pred);
+                return;
+            }
+            else if (curr->data == e && curr->next != NULL)
+            {
+                pred->next = curr->next;
+                free(curr);
+                l.length--;
+                return;
+            }
+            else if (curr->data == e && curr->next == NULL)
+            {
+                pred->next = NULL;
+                free(curr);
+                l.length--;
+                return;
+            }
+
+            pred = curr;
+            curr = curr->next;
+        }
+    }
+    void fesionner2_list(Linked_List *l2)
+    {
+        while (l2->get_length() > 0)
+        {
+            printf("%d \n", l2->get_length());
+            this->insert_fin(l2->get_last_val());
+            l2->delete_val(l2->get_last_val());
+        }
+    }
+};
+class Polynome : public Linked_List
+{
 };
 int main()
 {
-    Linked_List *v = new Linked_List(55);
+    Linked_List *v = new Linked_List(40);
     v->insert_fin(41);
-    v->insert_debut(40);
-    v->insert_debut(1);
+    v->insert_debut(5);
+    v->insert_debut(7);
+    printf("%d \n", v->get_last_val());
+    v->read();
+    Linked_List *v2 = new Linked_List(770);
+    v2->insert_fin(4111);
+
+    v->fesionner2_list(v2);
+
     v->read();
     return 0;
 }
