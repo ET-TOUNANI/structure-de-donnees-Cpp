@@ -90,6 +90,25 @@ public:
         l.head->next = NULL;
         l.last->next = NULL;
     }
+    void insert_debut(element_t e)
+    {
+        if (l.length > 0)
+        {
+            noed *curr = l.head;
+
+            l.head = (noed *)malloc(sizeof(noed));
+            l.head->data = e;
+            l.head->next = curr;
+            l.length++;
+            return;
+        }
+        l.head = (noed *)malloc(sizeof(noed));
+        l.last = (noed *)malloc(sizeof(noed));
+        l.head->data = e;
+        l.last->data = e;
+        l.head->next = NULL;
+        l.last->next = NULL;
+    }
     void read()
     {
         noed *curr = l.head;
@@ -108,9 +127,8 @@ int main()
 {
     Linked_List *v = new Linked_List(55);
     v->insert_fin(41);
-    v->insert_fin(47);
-    v->insert_fin(44);
-    v->insert_fin(40);
+    v->insert_debut(40);
+    v->insert_debut(1);
     v->read();
     return 0;
 }
