@@ -68,9 +68,9 @@ public:
         l.last->next = NULL;
         l.length++;
     }
-    element_t get_last_val()
+    element_t get_first_val()
     {
-        return l.last->data;
+        return l.head->data;
     }
     int get_length()
     {
@@ -165,9 +165,8 @@ public:
     {
         while (l2->get_length() > 0)
         {
-            printf("%d \n", l2->get_length());
-            this->insert_fin(l2->get_last_val());
-            l2->delete_val(l2->get_last_val());
+            this->insert_fin(l2->get_first_val());
+            l2->delete_val(l2->get_first_val());
         }
     }
 };
@@ -180,13 +179,12 @@ int main()
     v->insert_fin(41);
     v->insert_debut(5);
     v->insert_debut(7);
-    printf("%d \n", v->get_last_val());
     v->read();
     Linked_List *v2 = new Linked_List(770);
     v2->insert_fin(4111);
-
+    v2->insert_fin(1);
+    v2->insert_fin(2);
     v->fesionner2_list(v2);
-
     v->read();
     return 0;
 }
