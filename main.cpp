@@ -26,7 +26,11 @@
 À voir :
     les testes unitaires
     memcpy : copier deux block memoires (    )   copier (   )
+    creer une liste dans une nouvell liste
+    constructeur par copier
+    size_t <==> unsighned long  dirhom bzoj we thana
 
+    standars C les declarations au debut au block
  */
 #include <iostream>
 #include <stdio.h>
@@ -195,14 +199,14 @@ public:
 
             pred = curr;
             curr = curr->next;
-        } // new delete
+        }
     }
     void fesionner2_list(Linked_List *l2)
     {
         int nbrElements = l2->get_length();
         noed *curr = l2->get_head();
 
-        while (nbrElements > 0) //
+        while (nbrElements > 0)
         {
             while (curr != NULL)
             {
@@ -214,24 +218,32 @@ public:
     }
     void trie()
     {
+        if (this->estVide() == 1)
+        {
+            cout << "la liste est vide !!";
+            return;
+        }
 
-        noed *curr = this->l.head, *suiv = this->l.head;
-        element_t data;
+        noed *curr = this->get_head(), *suiv = this->get_head()->next;
+
         while (curr != NULL)
         {
             while (suiv != NULL)
             {
-                if (curr->data < suiv->data)
+                cout << "2";
+                if (curr->data > suiv->data)
                 {
-                    data = suiv->data;
-                    suiv->data = curr->data;
-                    curr->data = data;
+                    noed *addrs = suiv;
+                    suiv = curr;
+                    curr = addrs;
                 }
                 suiv = suiv->next;
             }
-            suiv = this->l.head;
+            cout << "1";
+            suiv = this->l.head->next;
             curr = curr->next;
         }
+        cout << "3";
     }
     void detruire()
     {
@@ -253,25 +265,28 @@ int main()
     v->insert_fin(1);
     v->insert_fin(5);
     v->insert_fin(7);
+    v->insert_fin(50);
+    v->insert_fin(71);
     v->insert_debut(44);
+
     v->read();
     /*
-    pour fesionner deux listes
-            Linked_List *v2 = new Linked_List(770);
-            v2->insert_fin(4111);
-            v2->insert_fin(11);
-            v2->insert_fin(2);
-            v->fesionner2_list(v2);
-    */
+        pour fesionner deux listes
+                Linked_List *v2 = new Linked_List(770);
+                v2->insert_fin(4111);
+                v2->insert_fin(11);
+                v2->insert_fin(2);
+                v->fesionner2_list(v2);
+        */
     /*
     pour detruire tout la liste
             v->detruire();
     */
     /*
-    pour detruire tout la liste
-            cout << "vous etes en train de trie la liste :) " << endl;
-            v->trie();
-    */
+    pour detruire tout la liste*/
+    cout << "vous etes en train de trie la liste :) " << endl;
+    v->trie();
+
     v->read();
     return 0;
 }
