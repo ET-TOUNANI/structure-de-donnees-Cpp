@@ -20,6 +20,13 @@
     Rommarque :
         les mononmes sont ordonnés en ordere croissent de leur degré
 
+
+
+
+À voir :
+    les testes unitaires
+    memcpy : copier deux block memoires (    )   copier (   )
+
  */
 #include <iostream>
 #include <stdio.h>
@@ -61,18 +68,37 @@ public:
     Linked_List(element_t e)
     {
         l.length = 0;
-        l.last = (noed *)malloc(sizeof(noed));
         l.head = (noed *)malloc(sizeof(noed));
         l.head->data = e;
-        l.last->data = e;
         l.head->next = NULL;
-        l.last->next = NULL;
+        l.last = l.head;
         l.length++;
+    }
+    bool estVide()
+    {
+        if (this->l.length > 0)
+            return 0; // n'est pas vide
+        return 1;     // la liste est vide
     }
     element_t get_first_val()
     {
-        
+        if (this->estVide() == 1)
+        {
+            cout << "la liste est vide !!" << endl;
+            return NULL;
+        }
+
         return l.head->data;
+    }
+    noed *get_head()
+    {
+        if (this->estVide() == 1)
+        {
+            cout << "la liste est vide !!" << endl;
+            return NULL;
+        }
+
+        return this->l.head;
     }
     int get_length()
     {
@@ -87,19 +113,17 @@ public:
             {
                 curr = curr->next;
             }
-            curr->next = (noed *)malloc(sizeof(noed));
+            curr->next = (noed *)new noed;
             l.last = curr->next;
             l.last->data = e;
             l.last->next = NULL;
             l.length++;
             return;
         }
-        l.head = (noed *)malloc(sizeof(noed));
-        l.last = (noed *)malloc(sizeof(noed));
+        l.head = (noed *)new noed;
         l.head->data = e;
-        l.last->data = e;
         l.head->next = NULL;
-        l.last->next = NULL;
+        l.last = l.head;
     }
     void insert_debut(element_t e)
     {
@@ -107,21 +131,25 @@ public:
         {
             noed *curr = l.head;
 
-            l.head = (noed *)malloc(sizeof(noed));
+            l.head = (noed *)new noed;
             l.head->data = e;
             l.head->next = curr;
             l.length++;
             return;
         }
-        l.head = (noed *)malloc(sizeof(noed));
-        l.last = (noed *)malloc(sizeof(noed));
+        l.head = (noed *)new noed;
         l.head->data = e;
-        l.last->data = e;
         l.head->next = NULL;
-        l.last->next = NULL;
+        l.last = l.head;
     }
     void read()
     {
+        if (this->estVide() == 1)
+        {
+            cout << "la liste est vide !!";
+            return;
+        }
+
         noed *curr = l.head;
         while (curr != NULL)
         {
@@ -132,6 +160,12 @@ public:
     }
     void delete_val(element_t e)
     {
+        if (this->estVide() == 1)
+        {
+            cout << "la liste est vide !!";
+            return;
+        }
+
         noed *curr = l.head, *pred = l.head;
         while (curr != NULL)
         {
@@ -141,34 +175,41 @@ public:
 
                 l.head = pred->next;
                 l.length--;
-                free(pred);
+                delete (pred);
                 return;
             }
             else if (curr->data == e && curr->next != NULL)
             {
                 pred->next = curr->next;
-                free(curr);
+                delete (curr);
                 l.length--;
                 return;
             }
             else if (curr->data == e && curr->next == NULL)
             {
                 pred->next = NULL;
-                free(curr);
+                delete (curr);
                 l.length--;
                 return;
             }
 
             pred = curr;
             curr = curr->next;
-        }//new delete 
+        } // new delete
     }
     void fesionner2_list(Linked_List *l2)
     {
-        while (l2->get_length() > 0)//
+        int nbrElements = l2->get_length();
+        noed *curr = l2->get_head();
+
+        while (nbrElements > 0) //
         {
-            this->insert_fin(l2->get_first_val());
-            l2->delete_val(l2->get_first_val());
+            while (curr != NULL)
+            {
+                this->insert_fin(curr->data);
+                curr = curr->next;
+            }
+            nbrElements--;
         }
     }
     void trie()
@@ -215,19 +256,22 @@ int main()
     v->insert_debut(44);
     v->read();
     /*
-    pour fesionner deux listes
-            Linked_List *v2 = new Linked_List(770);
-            v2->insert_fin(4111);
-            v2->insert_fin(11);
-            v2->insert_fin(2);
-            v->fesionner2_list(v2);
-    */
+    pour fesionner deux listes*/
+    Linked_List *v2 = new Linked_List(770);
+    v2->insert_fin(4111);
+    v2->insert_fin(11);
+    v2->insert_fin(2);
+    v->fesionner2_list(v2);
+
     /*
     pour detruire tout la liste
             v->detruire();
     */
-    cout << "vous etes en train de trie la liste :) " << endl;
-    v->trie();
+    /*
+    pour detruire tout la liste
+            cout << "vous etes en train de trie la liste :) " << endl;
+            v->trie();
+    */
     v->read();
     return 0;
 }
