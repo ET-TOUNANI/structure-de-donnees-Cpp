@@ -85,7 +85,7 @@ public:
         if (this->estVide() == 1)
         {
             cout << "la liste est vide !!" << endl;
-            return NULL;
+            return -1;
         }
 
         return l.head->data;
@@ -256,13 +256,13 @@ int main()
     v->insert_debut(44);
     v->read();
     /*
-    pour fesionner deux listes*/
-    Linked_List *v2 = new Linked_List(770);
-    v2->insert_fin(4111);
-    v2->insert_fin(11);
-    v2->insert_fin(2);
-    v->fesionner2_list(v2);
-
+    pour fesionner deux listes
+            Linked_List *v2 = new Linked_List(770);
+            v2->insert_fin(4111);
+            v2->insert_fin(11);
+            v2->insert_fin(2);
+            v->fesionner2_list(v2);
+    */
     /*
     pour detruire tout la liste
             v->detruire();
