@@ -175,11 +175,11 @@ public:
 
         noed *curr = this->l.head, *suiv = this->l.head;
         element_t data;
-        while (curr->next != NULL)
+        while (curr != NULL)
         {
             while (suiv != NULL)
             {
-                if (curr->data > suiv->data)
+                if (curr->data < suiv->data)
                 {
                     data = suiv->data;
                     suiv->data = curr->data;
@@ -187,6 +187,7 @@ public:
                 }
                 suiv = suiv->next;
             }
+            suiv = this->l.head;
             curr = curr->next;
         }
     }
@@ -208,8 +209,8 @@ int main()
 {
     Linked_List *v = new Linked_List(40);
     v->insert_fin(1);
-    v->insert_debut(5);
-    v->insert_debut(7);
+    v->insert_fin(5);
+    v->insert_fin(7);
     v->read();
     /*Linked_List *v2 = new Linked_List(770);
     v2->insert_fin(4111);
