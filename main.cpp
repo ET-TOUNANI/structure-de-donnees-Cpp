@@ -71,6 +71,7 @@ public:
     }
     element_t get_first_val()
     {
+        
         return l.head->data;
     }
     int get_length()
@@ -160,11 +161,11 @@ public:
 
             pred = curr;
             curr = curr->next;
-        }
+        }//new delete 
     }
     void fesionner2_list(Linked_List *l2)
     {
-        while (l2->get_length() > 0)
+        while (l2->get_length() > 0)//
         {
             this->insert_fin(l2->get_first_val());
             l2->delete_val(l2->get_first_val());
@@ -211,13 +212,20 @@ int main()
     v->insert_fin(1);
     v->insert_fin(5);
     v->insert_fin(7);
+    v->insert_debut(44);
     v->read();
-    /*Linked_List *v2 = new Linked_List(770);
-    v2->insert_fin(4111);
-    v2->insert_fin(11);
-    v2->insert_fin(2);
-    v->fesionner2_list(v2);
-    /*v->detruire();*/
+    /*
+    pour fesionner deux listes
+            Linked_List *v2 = new Linked_List(770);
+            v2->insert_fin(4111);
+            v2->insert_fin(11);
+            v2->insert_fin(2);
+            v->fesionner2_list(v2);
+    */
+    /*
+    pour detruire tout la liste
+            v->detruire();
+    */
     cout << "vous etes en train de trie la liste :) " << endl;
     v->trie();
     v->read();
