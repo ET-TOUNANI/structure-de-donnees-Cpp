@@ -24,6 +24,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 using namespace std;
 
 // type Node
@@ -169,6 +170,36 @@ public:
             l2->delete_val(l2->get_first_val());
         }
     }
+    void trie()
+    {
+
+        noed *curr = this->l.head, *suiv = this->l.head;
+        element_t data;
+        while (curr->next != NULL)
+        {
+            while (suiv != NULL)
+            {
+                if (curr->data > suiv->data)
+                {
+                    data = suiv->data;
+                    suiv->data = curr->data;
+                    curr->data = data;
+                }
+                suiv = suiv->next;
+            }
+            curr = curr->next;
+        }
+    }
+    void detruire()
+    {
+        cout << "attontion vous étes en train de detruire tout la liste ! " << endl;
+
+        while (this->get_length() > 0)
+        {
+            delete_val(this->get_first_val());
+        }
+        cout << "tous les élements sont supprimer :(" << endl;
+    }
 };
 class Polynome : public Linked_List
 {
@@ -176,15 +207,18 @@ class Polynome : public Linked_List
 int main()
 {
     Linked_List *v = new Linked_List(40);
-    v->insert_fin(41);
+    v->insert_fin(1);
     v->insert_debut(5);
     v->insert_debut(7);
     v->read();
-    Linked_List *v2 = new Linked_List(770);
+    /*Linked_List *v2 = new Linked_List(770);
     v2->insert_fin(4111);
-    v2->insert_fin(1);
+    v2->insert_fin(11);
     v2->insert_fin(2);
     v->fesionner2_list(v2);
+    /*v->detruire();*/
+    cout << "vous etes en train de trie la liste :) " << endl;
+    v->trie();
     v->read();
     return 0;
 }
