@@ -155,12 +155,12 @@ public:
         }
 
         noed *curr = l.head;
-        while (curr != NULL)
+        while (curr->next != NULL)
         {
             cout << curr->data << " -> ";
             curr = curr->next;
         }
-        cout << endl;
+        cout << curr->data << endl;
     }
     void delete_val(element_t e)
     {
@@ -216,35 +216,38 @@ public:
             nbrElements--;
         }
     }
-    void trie()
+    void sortlist()
     {
         if (this->estVide() == 1)
         {
             cout << "la liste est vide !!";
             return;
         }
+        // Node current will point to head
+        noed *current = get_head(), *index = NULL;
+        int temp;
 
-        noed *curr = this->get_head(), *suiv = this->get_head()->next;
-
-        while (curr != NULL)
+        while (current != NULL)
         {
-            while (suiv != NULL)
+            // Node index will point to node next to current
+            index = current->next;
+            while (index != NULL)
             {
-                cout << "2";
-                if (curr->data > suiv->data)
+                // If current node's data is greater than index's
+                // noed data, swap the data between them
+                if (current->data > index->data)
                 {
-                    noed *addrs = suiv;
-                    suiv = curr;
-                    curr = addrs;
+
+                    temp = current->data;
+                    current->data = index->data;
+                    index->data = temp;
                 }
-                suiv = suiv->next;
+                index = index->next;
             }
-            cout << "1";
-            suiv = this->l.head->next;
-            curr = curr->next;
+            current = current->next;
         }
-        cout << "3";
     }
+
     void detruire()
     {
         cout << "attontion vous étes en train de detruire tout la liste ! " << endl;
@@ -285,7 +288,7 @@ int main()
     /*
     pour detruire tout la liste*/
     cout << "vous etes en train de trie la liste :) " << endl;
-    v->trie();
+    v->sortlist();
 
     v->read();
     return 0;
