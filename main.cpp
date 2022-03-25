@@ -72,11 +72,30 @@ public:
     Linked_List(element_t e)
     {
         l.length = 0;
-        l.head = (noed *)malloc(sizeof(noed));
+        l.head = new noed;
         l.head->data = e;
         l.head->next = NULL;
         l.last = l.head;
         l.length++;
+    }
+    // constructeur par copier
+    Linked_List(Linked_List *list)
+    {
+        l.length = list->get_length();
+
+        noed *curr = list->get_head();
+        noed *curr2 = new noed;
+        curr2->data = curr->data;
+        curr2->next = new noed;
+        l.head = curr2;
+        while (curr->next != NULL)
+        {
+            curr2->data = curr->data;
+            curr2->next = new noed;
+            curr = curr->next;
+        }
+        l.last->data = curr->next->data;
+        l.last->next = NULL;
     }
     bool estVide()
     {
@@ -104,6 +123,16 @@ public:
 
         return this->l.head;
     }
+    noed *get_last()
+    {
+        if (this->estVide() == 1)
+        {
+            cout << "la liste est vide !!" << endl;
+            return NULL;
+        }
+
+        return this->l.last;
+    }
     int get_length()
     {
         return l.length;
@@ -117,14 +146,14 @@ public:
             {
                 curr = curr->next;
             }
-            curr->next = (noed *)new noed;
+            curr->next = new noed;
             l.last = curr->next;
             l.last->data = e;
             l.last->next = NULL;
             l.length++;
             return;
         }
-        l.head = (noed *)new noed;
+        l.head = new noed;
         l.head->data = e;
         l.head->next = NULL;
         l.last = l.head;
@@ -135,13 +164,13 @@ public:
         {
             noed *curr = l.head;
 
-            l.head = (noed *)new noed;
+            l.head = new noed;
             l.head->data = e;
             l.head->next = curr;
             l.length++;
             return;
         }
-        l.head = (noed *)new noed;
+        l.head = new noed;
         l.head->data = e;
         l.head->next = NULL;
         l.last = l.head;
@@ -273,6 +302,9 @@ int main()
     v->insert_debut(44);
 
     v->read();
+    Linked_List *v2 = new Linked_List(v);
+    // v->detruire();
+    v2->read();
     /*
         pour fesionner deux listes
                 Linked_List *v2 = new Linked_List(770);
@@ -282,14 +314,14 @@ int main()
                 v->fesionner2_list(v2);
         */
     /*
-    pour detruire tout la liste
-            v->detruire();
+        pour detruire tout la liste
+               v->detruire();
     */
     /*
-    pour detruire tout la liste*/
-    cout << "vous etes en train de trie la liste :) " << endl;
-    v->sortlist();
-
-    v->read();
+        pour trie  la liste
+            cout << "vous etes en train de trie la liste :) " << endl;
+            v->sortlist();
+    */
+    // v->read();
     return 0;
 }
