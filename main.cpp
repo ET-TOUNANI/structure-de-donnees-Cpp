@@ -79,23 +79,30 @@ public:
         l.length++;
     }
     // constructeur par copier
-    Linked_List(Linked_List *list)
+    Linked_List(const Linked_List &list)
     {
-        l.length = list->get_length();
+        if (list.l.length == 0)
+        {
+            cout << "list is vide" << endl;
+            return;
+        }
 
-        noed *curr = list->get_head();
-        noed *curr2 = new noed;
-        curr2->data = curr->data;
-        curr2->next = new noed;
-        l.head = curr2;
+        l.length = list.l.length;
+
+        l.head = new noed;
+        l.head->data = list.l.head->data;
+        l.head->next = new noed;
+        noed *curr = list.l.head->next;
+        noed *CurrOfnewList = l.head->next;
         while (curr->next != NULL)
         {
-            curr2->data = curr->data;
-            curr2->next = new noed;
+            CurrOfnewList->next = new noed;
+            CurrOfnewList->data = curr->data;
             curr = curr->next;
+            CurrOfnewList = CurrOfnewList->next;
         }
-        l.last->data = curr->next->data;
-        l.last->next = NULL;
+        CurrOfnewList->data = curr->data;
+        l.last = CurrOfnewList;
     }
     bool estVide()
     {
@@ -277,9 +284,16 @@ public:
         }
     }
 
-    void detruire()
+    ~Linked_List()
     {
-        cout << "attontion vous étes en train de detruire tout la liste ! " << endl;
+        string choix;
+        cout << "voullez vous vraiment supprimer tout la liste ! (y,n) :" << endl;
+        cin >> choix;
+        if (choix == "n")
+        {
+
+            return;
+        }
 
         while (this->get_length() > 0)
         {
@@ -302,8 +316,8 @@ int main()
     v->insert_debut(44);
 
     v->read();
-    Linked_List *v2 = new Linked_List(v);
-    // v->detruire();
+    Linked_List *v2 = new Linked_List(*v); // constricteur par copier
+    v->~Linked_List();                     // destrecteur
     v2->read();
     /*
         pour fesionner deux listes
