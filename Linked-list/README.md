@@ -1,4 +1,4 @@
-# Application-C++-
+# Linked List C++
     Donner la declaration des types et opération relatifs à une liste simplement chainé dans les élements
     sont de type générique  "element_t"
     la liste sera representée par
