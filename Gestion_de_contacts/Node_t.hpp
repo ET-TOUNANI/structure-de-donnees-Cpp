@@ -18,10 +18,15 @@ private:
 };
 Node_t::Node_t(string name, string phone, string email = " ")
 {
+    prev = NULL;
+    next = NULL;
     this->contact = new Contact_t(name, phone, email);
 }
 Node_t::~Node_t()
 {
+    delete prev;
+    delete next;
+    delete contact;
 }
 string Node_t::toString() const
 {

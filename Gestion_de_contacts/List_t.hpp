@@ -14,7 +14,9 @@ private:
 public:
     List_t()
     {
-        head = NULL;
+        head->next = NULL;
+        head->prev = NULL;
+        head->contact = NULL;
         nbre = 0;
     }
     void add(string, string, string);
@@ -43,15 +45,14 @@ void List_t::add(string name, string phone, string email = NULL)
             }
             curr = curr->next;
         }*/
+        return;
     }
     nbre++;
+
     cout << nbre;
-    head->next = &node;
-    head = &node;
+    head->contact = node.contact;
+    head->next = new Node_t(name, phone, email);
     head->next->prev = head;
-}
-void List_t::toString() const
-{
 }
 void List_t::deleteList(string email)
 {
@@ -61,6 +62,18 @@ void List_t::deleteList(string email)
  }*/
 void List_t::print() const
 {
+    if (isEmpty() == false)
+    {
+        Node_t *curr = head;
+        while (curr != NULL)
+        {
+            curr->toString();
+            curr = curr->next;
+        }
+        return;
+    }
+    cout << "there is no concats here !" << endl;
+    return;
 }
 bool List_t::isEmpty() const
 {
