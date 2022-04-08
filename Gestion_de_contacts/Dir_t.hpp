@@ -16,5 +16,13 @@ public:
     {
         liste[((int)name[0]) - 65].add(name, phone, email);
     }
+    void print()
+    {
+        liste[0].print();
+        /*for (int i = 0; i < 27; i++)
+        {
+            liste[i].print();
+        }*/
+    }
 };
 #endif
