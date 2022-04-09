@@ -10,7 +10,7 @@ class Node_t
 private:
     Node_t *prev, *next;
     Contact_t *contact;
-
+    Node_t(Node_t &);
     Node_t(string, string, string);
     ~Node_t();
     string toString() const;
@@ -18,14 +18,18 @@ private:
 };
 Node_t::Node_t(string name, string phone, string email = " ")
 {
-    prev = NULL;
-    next = NULL;
+    next = nullptr;
+    prev = nullptr;
     this->contact = new Contact_t(name, phone, email);
+}
+Node_t::Node_t(Node_t &node)
+{
+    next = nullptr;
+    prev = nullptr;
+    this->contact = new Contact_t(node.contact->name, node.contact->phone, node.contact->email);
 }
 Node_t::~Node_t()
 {
-    delete prev;
-    delete next;
     delete contact;
 }
 string Node_t::toString() const

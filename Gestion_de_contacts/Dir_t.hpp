@@ -2,27 +2,36 @@
 #define _Dir_t_
 
 #include <iostream>
+#include <stdio.h>
 #include <string>
 #include "List_t.hpp"
 
 using namespace std;
 class Dir_t
 {
-    List_t liste[27];
+    List_t *liste;
     int nbre;
 
 public:
+    Dir_t()
+    {
+        liste = new List_t[27];
+        nbre = 0;
+    }
     void add(string name, string phone, string email = NULL)
     {
+        nbre++;
         liste[((int)name[0]) - 65].add(name, phone, email);
     }
     void print()
     {
-        liste[0].print();
-        /*for (int i = 0; i < 27; i++)
+        for (int i = 0; i < 26; i++)
         {
+            printf("%c : \n", i + 65);
+            cout << "---------------------------" << endl;
             liste[i].print();
-        }*/
+            cout << "---------------------------" << endl;
+        }
     }
 };
 #endif

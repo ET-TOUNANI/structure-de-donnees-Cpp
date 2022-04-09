@@ -37,26 +37,16 @@ Contact_t::~Contact_t()
 }
 string Contact_t::toString()
 {
-    string s = "information de " + name + "\n\t phone : " + phone + " \n\t email : " + email;
+    string s = "|\t name : " + name + "\n|\t phone : " + phone + " \n|\t email : " + email;
     return s;
 }
 bool Contact_t::compare(const Contact_t &contact) const
 {
-    if (this->name < contact.name)
-    {
-        return false;
-    }
-    else
-        return true;
+    return this->name < contact.name;
 }
 bool Contact_t::operator<(const Contact_t &contact)
 {
-    if (this->name < contact.name)
-    {
-        return false;
-    }
-    else
-        return true;
+    return this->name < contact.name;
 }
 
 void Contact_t::print()
