@@ -9,15 +9,18 @@ class List_t
 {
 private:
     Node_t *head;
-    int nbre;
+    int size;
 
 public:
-    List_t()
+    List_t() : size(0), head(nullptr) {}
+    ~List_t()
     {
-        head->next = NULL;
-        head->prev = NULL;
-        head->contact = NULL;
-        nbre = 0;
+        Node_t *curr = head;
+        while (head != nullptr)
+        {
+            head = head->next;
+            delete curr;
+        }
     }
     void add(string, string, string);
     void toString() const;
@@ -27,32 +30,39 @@ public:
     bool isEmpty() const;
     void update(string, string); // Nom, phone
 };
-void List_t::add(string name, string phone, string email = NULL)
+void List_t::add(string name, string phone, string email = " ")
 {
-    Node_t node(name, phone, email);
+
+    Node_t newNode(name, phone, email);
+
     if (isEmpty() == false)
     {
-
-        /*nbre++;
         Node_t *curr = head;
-        while (curr != NULL)
+        while (curr != nullptr)
         {
-            if (curr->next->contact->compare(*node.contact) == true)
+            if (name < curr->contact->name)
             {
-                curr->next->prev->next = new Node_t(node.contact->name, node.contact->phone, node.contact->email);
-                curr->next->prev->next->next = curr;
+                newNode.next = (Node_t *)&curr;
+                newNode.prev = (Node_t *)&curr->prev;
+                curr->prev = &newNode;
                 return;
             }
             curr = curr->next;
-        }*/
-        return;
+        }
+        if (curr == nullptr)
+        {
+            curr->contact = newNode.contact;
+            return;
+        }
     }
-    nbre++;
+    else
+    {
+        head = new Node_t(newNode);
+        head->next = new Node_t(newNode);
+        head->next->prev = (Node_t *)&head;
+    }
 
-    cout << nbre;
-    head->contact = node.contact;
-    head->next = new Node_t(name, phone, email);
-    head->next->prev = head;
+    size++;
 }
 void List_t::deleteList(string email)
 {
@@ -65,9 +75,9 @@ void List_t::print() const
     if (isEmpty() == false)
     {
         Node_t *curr = head;
-        while (curr != NULL)
+        while (curr->next != nullptr)
         {
-            curr->toString();
+            cout << curr->toString() << endl;
             curr = curr->next;
         }
         return;
@@ -77,14 +87,11 @@ void List_t::print() const
 }
 bool List_t::isEmpty() const
 {
-    if (this->nbre == 0)
-    {
+    if (this->size == 0)
         return true;
-    }
     return false;
-
-} /*
- void List_t::update(string name, string phone = NULL)
- {
- }*/
+}
+void List_t::update(string name, string phone = NULL)
+{
+}
 #endif
