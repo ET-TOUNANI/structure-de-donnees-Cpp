@@ -23,6 +23,20 @@ public:
         nbre++;
         liste[((int)name[0]) - 65].add(name, phone, email);
     }
+    void deleteList(string email)
+    {
+        nbre--;
+        for (int i = 0; i < 26; i++)
+        {
+            if (liste[i].search(email) == true)
+            {
+                liste[i].deleteList(email);
+                return;
+            }
+        }
+        cout << "there is no contact with this email" << endl;
+    }
+
     void print()
     {
         for (int i = 0; i < 26; i++)
