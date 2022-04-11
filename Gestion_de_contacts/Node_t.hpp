@@ -11,10 +11,12 @@ private:
     Node_t *prev, *next;
     Contact_t *contact;
     Node_t(Node_t &);
+    Node_t() : prev(nullptr), next(nullptr), contact(nullptr) {}
     Node_t(string, string, string);
     ~Node_t();
     string toString() const;
     friend class List_t;
+    friend class Dir_t;
 };
 Node_t::Node_t(string name, string phone, string email = " ")
 {

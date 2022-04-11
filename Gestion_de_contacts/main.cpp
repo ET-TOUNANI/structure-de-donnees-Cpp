@@ -6,15 +6,16 @@ int main()
     Dir_t d;
 
     d.add("Ahmed", "0689971837", "abdo@gmail.com");
-    d.add("S1", "0658743651", "said@gmail.com");
-    d.add("S2", "065871", "samir@gmail.com");
-    d.add("S12", "065876588", "samira@gmail.com");
-    d.add("S3", "088", "samar@gmail.com");
-    d.add("S5", "088", "sami@gmail.com");
-    d.add("S33", "088", "samar@gmail.com");
-    d.add("S55", "088", "sami@gmail.com");
+    d.add("Said", "0658743651", "said@gmail.com");
+    d.add("Sami", "065754871", "sami@gmail.com");
+    d.add("Samira", "065876588", "samira@gmail.com");
+    d.add("Amin", "0697484135", "amin@gmail.com");
+    d.add("Bahija", "0654478154", "bahija@gmail.com");
+    d.add("Fatima", "054678465", "fatima@gmail.com");
+
     // d.print();
-    //  d.deleteList("said@gmail.com");
+    //  d.deleteList("said@gmail.com");//pour supprimer le contact de said@gmail.com
+
     d.print();
     return 0;
 }

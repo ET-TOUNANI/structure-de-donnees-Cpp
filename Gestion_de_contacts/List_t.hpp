@@ -4,7 +4,7 @@
 #include <string>
 #include "Node_t.hpp"
 using namespace std;
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class List_t
 {
 private:
@@ -13,6 +13,7 @@ private:
 
 public:
     List_t() : size(0), head(nullptr) {}
+
     ~List_t()
     {
         Node_t *curr = head;
@@ -23,13 +24,15 @@ public:
         }
     }
     void add(string, string, string);
-    void toString() const;
-    void deleteList(string); // email
-    bool search(string) const;
+    string toString() const;
+    void deleteList(Node_t *);
+    Node_t *search(string) const;
     void print() const;
     bool isEmpty() const;
     void update(string, string); // Nom, phone
+    friend class Dir_t;
 };
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void List_t::add(string name, string phone, string email = " ")
 {
 
@@ -65,42 +68,41 @@ void List_t::add(string name, string phone, string email = " ")
 
     size++;
 }
-void List_t::deleteList(string email)
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void List_t::deleteList(Node_t *deleted_Node)
 {
     if (size == 1)
     {
+        size--;
         head->next->~Node_t();
         head->next = nullptr;
         head->~Node_t();
         return;
     }
-    Node_t *curr = head;
     size--;
-    while (curr != nullptr)
-    {
-        if (curr->contact->email == email)
-        {
 
-            curr->~Node_t();
-            curr->prev->next = curr->next;
-            curr->next->prev = curr->prev;
-        }
-        curr = curr->next;
-    }
+    deleted_Node->~Node_t();
+    deleted_Node->prev->next = deleted_Node->next;
+    deleted_Node->next->prev = deleted_Node->prev;
 }
-bool List_t::search(string email_or_Phone) const
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Node_t *List_t::search(string email_or_Phone) const
 {
+
     Node_t *curr = head;
     while (curr != nullptr)
     {
         if (curr->contact->email == email_or_Phone || curr->contact->name == email_or_Phone)
         {
-            return true;
+            return curr;
         }
         curr = curr->next;
     }
-    return false;
+    cout << "no contact with this information !! " << endl;
+    Node_t *NoContact = new Node_t();
+    return NoContact;
 }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void List_t::print() const
 {
     if (isEmpty() == false)
@@ -117,13 +119,30 @@ void List_t::print() const
     cout << "there is no concats here !" << endl;
     return;
 }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 bool List_t::isEmpty() const
 {
     if (this->size == 0)
         return true;
     return false;
 }
-/*void List_t::update(string name, string phone = NULL)
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void List_t::update(string name, string phone = " ")
 {
-}*/
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+string List_t::toString() const
+{
+    if (isEmpty())
+        return "no contacts here";
+    string result;
+    Node_t *curr = head->next;
+    while (curr != nullptr)
+    {
+        result += curr->toString();
+        result += "\n__________________________\n";
+        curr = curr->next;
+    }
+    return result;
+}
 #endif
