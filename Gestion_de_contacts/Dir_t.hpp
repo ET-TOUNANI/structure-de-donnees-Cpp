@@ -31,10 +31,10 @@ public:
         nbre--;
         for (int i = 0; i < 26; i++)
         {
-            Node_t *result_search = liste[i].search(email);
-            if (result_search->contact == nullptr)
+
+            if ((liste[i].search(email))->contact == nullptr)
                 continue;
-            liste[i].deleteList(result_search);
+            liste[i].deleteList(email);
             return;
         }
         cout << "there is no contact with this email" << endl;

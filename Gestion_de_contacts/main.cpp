@@ -14,7 +14,7 @@ int main()
     d.add("Fatima", "054678465", "fatima@gmail.com");
 
     // d.print();
-    //  d.deleteList("said@gmail.com");//pour supprimer le contact de said@gmail.com
+    d.deleteList("amin@gmail.com"); // pour supprimer le contact de fatima@gmail.com
 
     d.print();
     return 0;

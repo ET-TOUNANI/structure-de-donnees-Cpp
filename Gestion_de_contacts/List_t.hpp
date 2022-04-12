@@ -25,7 +25,7 @@ public:
     }
     void add(string, string, string);
     string toString() const;
-    void deleteList(Node_t *);
+    void deleteList(string);
     Node_t *search(string) const;
     void print() const;
     bool isEmpty() const;
@@ -69,21 +69,27 @@ void List_t::add(string name, string phone, string email = " ")
     size++;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void List_t::deleteList(Node_t *deleted_Node)
+void List_t::deleteList(string email)
 {
     if (size == 1)
     {
         size--;
-        head->next->~Node_t();
-        head->next = nullptr;
-        head->~Node_t();
+        head->next = head->next->next;
+        head->contact = head->next->next->contact;
         return;
     }
-    size--;
-
-    deleted_Node->~Node_t();
-    deleted_Node->prev->next = deleted_Node->next;
-    deleted_Node->next->prev = deleted_Node->prev;
+    Node_t *curr = head;
+    while (curr != nullptr)
+    {
+        if (curr->contact->email == email)
+        {
+            curr->prev->next = curr->next;
+            curr->next->prev = prev;
+            curr->~Node_t();
+            return;
+        }
+        curr = curr->next;
+    }
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Node_t *List_t::search(string email_or_Phone) const
