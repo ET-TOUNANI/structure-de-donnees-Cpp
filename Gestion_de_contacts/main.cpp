@@ -14,8 +14,12 @@ int main()
     d.add("Fatima", "054678465", "fatima@gmail.com");
 
     // d.print();
-    d.deleteList("amin@gmail.com"); // pour supprimer le contact de fatima@gmail.com
-
+    // d.deleteList("bahija@gmail.com");
+    // d.deleteList("abdo@gmail.com");
+    // d.deleteList("samira @gmail.com");
+    // d.print();
+    // d.update("Amida", "abdo@gmail.com", "05555555");
+    cout << "\n\n";
     d.print();
     return 0;
 }

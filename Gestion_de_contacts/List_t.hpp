@@ -17,9 +17,9 @@ public:
     ~List_t()
     {
         Node_t *curr = head;
-        while (head != nullptr)
+        while (curr != nullptr)
         {
-            head = head->next;
+            head = curr->next;
             delete curr;
         }
     }
@@ -29,7 +29,7 @@ public:
     Node_t *search(string) const;
     void print() const;
     bool isEmpty() const;
-    void update(string, string); // Nom, phone
+    void update(string, string, string);
     friend class Dir_t;
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -45,51 +45,85 @@ void List_t::add(string name, string phone, string email = " ")
         {
             if (name < curr->contact->name)
             {
-                Node_t *prevPrim = curr->prev;
-                curr->prev = new Node_t(newNode);
-                prevPrim->next = (Node_t *)&curr->prev;
+                size++;
+                curr->prev = new Node_t(newNode, curr->prev, curr);
                 return;
             }
             curr = curr->next;
         }
-        if (curr->next == nullptr)
+        // avant le dernier noed
+        if (name < curr->contact->name)
         {
-            curr->next = new Node_t(newNode);
-            curr->next->prev = (Node_t *)&curr;
+            size++;
+            curr->prev = new Node_t(newNode, curr->prev, curr);
+            return;
+        }
+        // ajouter dans la fin de la liste
+        else
+        {
+            size++;
+            curr->next = new Node_t(newNode, curr, nullptr);
             return;
         }
     }
+    // la liste est vide
     else
     {
-        head = new Node_t(newNode);
-        head->next = new Node_t(newNode);
-        head->next->prev = (Node_t *)&head;
-    }
 
-    size++;
+        size++;
+        head = new Node_t(newNode, nullptr, nullptr);
+        return;
+    }
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void List_t::deleteList(string email)
 {
-    if (size == 1)
+    // the list contain one element
+    if (size == 1 && head->contact->email == email)
     {
         size--;
-        head->next = head->next->next;
-        head->contact = head->next->next->contact;
+        head = nullptr;
+        return;
+    }
+    // delete the first noed
+    if (head->contact->email == email)
+    {
+        size--;
+        Node_t tempNode(head->next->contact->name, head->next->contact->phone, head->next->contact->email);
+        // the list contain just two noeds
+        if (head->next->next == nullptr)
+        {
+            head = new Node_t(tempNode, nullptr, nullptr);
+            return;
+        }
+        // the list contain more then list
+        head = new Node_t(tempNode, nullptr, head->next->next);
+        head->next->prev = head;
+
         return;
     }
     Node_t *curr = head;
-    while (curr != nullptr)
+    while (curr->next != nullptr)
     {
         if (curr->contact->email == email)
         {
+            size--;
             curr->prev->next = curr->next;
-            curr->next->prev = prev;
+            curr->next->prev = curr->prev;
             curr->~Node_t();
             return;
         }
         curr = curr->next;
     }
+    // delete the last noed
+    if (curr->contact->email == email)
+    {
+        size--;
+        curr->prev->next = nullptr;
+        curr->~Node_t();
+        return;
+    }
+    cout << "there is no contact with this email ! " << endl;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Node_t *List_t::search(string email_or_Phone) const
@@ -104,7 +138,6 @@ Node_t *List_t::search(string email_or_Phone) const
         }
         curr = curr->next;
     }
-    cout << "no contact with this information !! " << endl;
     Node_t *NoContact = new Node_t();
     return NoContact;
 }
@@ -133,8 +166,10 @@ bool List_t::isEmpty() const
     return false;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void List_t::update(string name, string phone = " ")
+void List_t::update(string name, string email, string phone = " ")
 {
+    Node_t *modified = search(email);
+    modified->contact = new Contact_t(name, phone, email);
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 string List_t::toString() const
@@ -142,7 +177,7 @@ string List_t::toString() const
     if (isEmpty())
         return "no contacts here";
     string result;
-    Node_t *curr = head->next;
+    Node_t *curr = head;
     while (curr != nullptr)
     {
         result += curr->toString();

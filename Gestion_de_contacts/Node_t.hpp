@@ -15,6 +15,11 @@ private:
     Node_t(string, string, string);
     ~Node_t();
     string toString() const;
+    Node_t(
+        Node_t &,
+        Node_t *, // prev
+        Node_t *  // next
+    );
     friend class List_t;
     friend class Dir_t;
 };
@@ -23,6 +28,12 @@ Node_t::Node_t(string name, string phone, string email = " ")
     next = nullptr;
     prev = nullptr;
     this->contact = new Contact_t(name, phone, email);
+}
+Node_t::Node_t(Node_t &node, Node_t *prev_, Node_t *next_)
+{
+    next = next_;
+    prev = prev_;
+    this->contact = new Contact_t(node.contact->name, node.contact->phone, node.contact->email);
 }
 Node_t::Node_t(Node_t &node)
 {

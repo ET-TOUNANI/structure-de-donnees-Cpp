@@ -28,20 +28,30 @@ public:
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void deleteList(string email)
     {
-        nbre--;
+
         for (int i = 0; i < 26; i++)
         {
-
-            if ((liste[i].search(email))->contact == nullptr)
+            Node_t *ForDelete = liste[i].search(email);
+            if (ForDelete->contact == nullptr)
                 continue;
             liste[i].deleteList(email);
+            nbre--;
             return;
         }
         cout << "there is no contact with this email" << endl;
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    void update(string, string, string, string = "")
+    void update(string name, string email, string phone = "")
     {
+        for (int i = 0; i < 26; i++)
+        {
+            Node_t *ForUpdate = liste[i].search(email);
+            if (ForUpdate->contact == nullptr)
+                continue;
+            liste[i].update(name, email, phone);
+            return;
+        }
+        cout << "there is no contact with this email" << endl;
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     string toString() const
