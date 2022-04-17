@@ -15,7 +15,7 @@ public:
     }
     void push(int data)
     {
-        tab[++size] = data;
+        tab[size++] = data;
     }
     int pop()
     {
@@ -37,9 +37,12 @@ public:
     {
         if (isEmpty())
             cout << "empty pile -_- ! " << endl;
-        for (int i = 0; i < size; i++)
+        cout << endl;
+        for (int i = size - 1; i >= 0; i--)
         {
-            cout << tab[i] << " --> " << endl;
+
+            cout << "|  " << tab[i] << " | " << endl;
+            cout << "|____|" << endl;
         }
     }
 };
