@@ -19,17 +19,23 @@ public:
         liste = new List_t[27];
         nbre = 0;
     }
+    int hashFunction(string key)
+    {
+        int index = (int)key[0] - 65;
+        return index;
+    }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void add(string name, string phone, string email = NULL)
     {
         nbre++;
-        liste[((int)name[0]) - 65].add(name, phone, email);
+        int index = hashFunction(name);
+        liste[index].add(name, phone, email);
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void deleteList(string email, string name)
     {
 
-        int index = (int)name[0] - 65;
+        int index = hashFunction(name);
         Node_t *ForDelete = liste[index].search(email);
 
         if (ForDelete->contact == nullptr)
@@ -47,7 +53,7 @@ public:
     void
     update(string name, string email, string phone = "")
     {
-        int index = (int)name[0] - 65;
+        int index = hashFunction(name);
         Node_t *ForUpdate = liste[index].search(email);
         if (ForUpdate->contact == nullptr)
         {
