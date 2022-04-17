@@ -14,9 +14,9 @@ int main()
     d.add("Fatima", "054678465", "fatima@gmail.com");
 
     // d.print();
-    // d.deleteList("bahija@gmail.com");
-    // d.deleteList("abdo@gmail.com");
-    // d.deleteList("samira @gmail.com");
+    // d.deleteList("bahija@gmail.com" ,"Bahija");
+    // d.deleteList("abdo@gmail.com" , "Ahmed");
+    // d.deleteList("samira@gmail.com" , "Samira");
     // d.print();
     // d.update("Amida", "abdo@gmail.com", "05555555");
     cout << "\n\n";

@@ -26,32 +26,36 @@ public:
         liste[((int)name[0]) - 65].add(name, phone, email);
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    void deleteList(string email)
+    void deleteList(string email, string name)
     {
 
-        for (int i = 0; i < 26; i++)
+        int index = (int)name[0] - 65;
+        Node_t *ForDelete = liste[index].search(email);
+
+        if (ForDelete->contact == nullptr)
         {
-            Node_t *ForDelete = liste[i].search(email);
-            if (ForDelete->contact == nullptr)
-                continue;
-            liste[i].deleteList(email);
-            nbre--;
+            cout << "there is no contact with this email" << endl;
             return;
         }
-        cout << "there is no contact with this email" << endl;
+
+        liste[index].deleteList(email);
+        nbre--;
+        return;
     }
+
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    void update(string name, string email, string phone = "")
+    void
+    update(string name, string email, string phone = "")
     {
-        for (int i = 0; i < 26; i++)
+        int index = (int)name[0] - 65;
+        Node_t *ForUpdate = liste[index].search(email);
+        if (ForUpdate->contact == nullptr)
         {
-            Node_t *ForUpdate = liste[i].search(email);
-            if (ForUpdate->contact == nullptr)
-                continue;
-            liste[i].update(name, email, phone);
+            cout << "there is no contact with this email" << endl;
             return;
         }
-        cout << "there is no contact with this email" << endl;
+        liste[index].update(name, email, phone);
+        return;
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     string toString() const
