@@ -3,6 +3,9 @@
 #define MAX 10
 #include <iostream>
 using namespace std;
+//----------------------------------------
+// implemontation using Array
+//----------------------------------------
 class Pile_with_table
 {
     int size;
@@ -20,6 +23,10 @@ public:
     int pop()
     {
         return tab[size--];
+    }
+    int length()
+    {
+        return size;
     }
     bool isEmpty()
     {
@@ -46,8 +53,74 @@ public:
         }
     }
 };
+
+//----------------------------------------
+// implemontation using LinkedList
+//----------------------------------------
+
+typedef struct node
+{
+    int data;
+    struct node *next;
+    struct node *prev;
+} node;
 class Pile_with_linkedList
 {
+    int size;
+    node *head;
+    node *last;
+
+public:
+    Pile_with_linkedList()
+    {
+        size = 0;
+        last = nullptr;
+        head = nullptr;
+    }
+    void push(int data)
+    {
+        if (isEmpty())
+        {
+            size++;
+            head = new node;
+            head->data = data;
+            last = head;
+            return;
+        }
+        size++;
+        last->next = new node;
+        last->next->data = data;
+        last->next->next = nullptr;
+        last->next->prev = last;
+        last = last->next;
+    }
+    node pop()
+    {
+        node *RemovedNode = last;
+        delete last;
+        last = RemovedNode->prev;
+        size--;
+        return *RemovedNode;
+    }
+    bool isEmpty()
+    {
+        if (size == 0)
+            return true;
+        return false;
+    }
+    void print()
+    {
+        if (isEmpty())
+            cout << "empty pile -_- ! " << endl;
+        cout << endl;
+        node *temp = last;
+        while (temp != nullptr)
+        {
+            cout << "|  " << temp->data << " |" << endl;
+            cout << "|____|" << endl;
+            temp = temp->prev;
+        }
+    }
 };
 
 #endif
