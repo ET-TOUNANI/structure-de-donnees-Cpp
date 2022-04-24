@@ -1,15 +1,18 @@
 #ifndef _BST_
 #define _BST_
 #include <iostream>
+#include <vector>
 using namespace std;
 typedef struct node
 {
     int data;
+    int livel;
     struct node *left;
     struct node *right;
     node(int d)
     {
         data = d;
+        livel = 0;
         left = nullptr;
         right = nullptr;
     }
@@ -29,7 +32,11 @@ public:
     void infix(node *);
     void prefix(node *);
     void postfix(node *);
-    bool isLeaf(node const &);
+    bool isLeaf(node *);
+    int somme_Leaf(node *);
+    vector<int> Leafs(node *);
+    int count_Leaf(node *);
+    bool check(vector<int>);
     ~BST();
 };
 
@@ -64,29 +71,33 @@ void BST::add(int d)
         root = new node(d);
         return;
     }
-
-    node *temp = root;
-    node *father = nullptr;
-    while (1)
+    node *current = root;
+    int lev = 0;
+    while (current != nullptr)
     {
-        father = temp;
-        if (father->data <= d)
+        lev++;
+        if (current->data > d)
         {
-            temp = temp->right;
-            if (temp == nullptr)
+            if (current->left != nullptr)
             {
-                father->right = new node(d);
-                return;
+
+                current = current->left;
+                continue;
             }
+            current->left = new node(d);
+            current->left->livel = lev;
+            return;
         }
         else
         {
-            temp = temp->left;
-            if (temp == nullptr)
+            if (current->right != nullptr)
             {
-                father->left = new node(d);
-                return;
+                current = current->right;
+                continue;
             }
+            current->right = new node(d);
+            current->right->livel = lev;
+            return;
         }
     }
 }
@@ -118,9 +129,9 @@ void BST::postfix(node *bt)
     postfix(bt->right);
     cout << bt->data << "  --- ";
 }
-bool isLeaf(node const &bt)
+bool BST ::isLeaf(node *bt)
 {
-    if (bt.left == nullptr && bt.right == nullptr)
+    if (bt->left == nullptr && bt->right == nullptr)
         return true;
     return false;
 }
@@ -129,4 +140,57 @@ BST::~BST()
     delete root;
 }
 
+int BST::somme_Leaf(node *bt)
+{
+
+    if (bt == nullptr)
+        return 0;
+
+    static int res = 0;
+    if (isLeaf(bt))
+        res += bt->data;
+
+    somme_Leaf(bt->left);
+    somme_Leaf(bt->right);
+    return res;
+}
+int BST::count_Leaf(node *bt)
+{
+
+    if (bt == nullptr)
+        return 0;
+
+    static int res = 0;
+    if (isLeaf(bt))
+        res += 1;
+
+    count_Leaf(bt->left);
+    count_Leaf(bt->right);
+    return res;
+}
+
+vector<int> BST::Leafs(node *bt)
+{
+    vector<int> v;
+    if (bt == nullptr)
+        return v;
+
+    static vector<int> q;
+    if (isLeaf(bt))
+        q.push_back(bt->livel);
+
+    Leafs(bt->left);
+    Leafs(bt->right);
+    return q;
+}
+bool BST::check(vector<int> int_vector)
+{
+    int level = int_vector[0];
+    for (int i = 1; i < int_vector.size(); i++)
+    {
+        if (level != int_vector[i])
+            return false;
+    }
+    return true;
+}
 #endif
