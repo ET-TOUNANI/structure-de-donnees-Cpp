@@ -1,7 +1,7 @@
 # structure-de-donnees
 using C++<a href="https://www.geeksforgeeks.org/queue-linked-list-implementation/">site</a>
 ## Linked list
-
+<a href="https://cours.etsmtl.ca/SEG/FHenri/inf145/Suppl%C3%A9ments/">site</a>
 ## Pile 
 
 ## File
