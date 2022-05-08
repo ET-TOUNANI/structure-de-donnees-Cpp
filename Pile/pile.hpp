@@ -2,6 +2,7 @@
 #define _pile_
 #define MAX 10
 #include <iostream>
+#include <string>
 using namespace std;
 //----------------------------------------
 // implemontation using Array
@@ -14,14 +15,26 @@ class Pile_with_table
 public:
     Pile_with_table()
     {
-        size = 0;
+        size = -1;
     }
     void push(int data)
     {
-        tab[size++] = data;
+        if (isFull())
+        {
+            cout << "full !!";
+            return;
+        }
+
+        tab[++size] = data;
     }
     int pop()
     {
+        if (isEmpty())
+        {
+            cout << "err !!";
+            return 0;
+        }
+
         return tab[size--];
     }
     int length()
@@ -30,7 +43,7 @@ public:
     }
     bool isEmpty()
     {
-        if (size == 0)
+        if (size == -1)
             return true;
         return false;
     }
@@ -58,17 +71,20 @@ public:
 // implemontation using LinkedList
 //----------------------------------------
 
-typedef struct node
+template <typename T>
+class node
 {
-    int data;
+public:
+    T data;
     struct node *next;
     struct node *prev;
-} node;
+};
+template <typename T>
 class Pile_with_linkedList
 {
     int size;
-    node *head;
-    node *last;
+    node<T> *head;
+    node<T> *last;
 
 public:
     Pile_with_linkedList()
@@ -77,30 +93,36 @@ public:
         last = nullptr;
         head = nullptr;
     }
-    void push(int data)
+
+    void push(T data)
     {
         if (isEmpty())
         {
             size++;
-            head = new node;
+            head = new node<T>;
             head->data = data;
             last = head;
             return;
         }
         size++;
-        last->next = new node;
+        last->next = new node<T>;
         last->next->data = data;
         last->next->next = nullptr;
         last->next->prev = last;
         last = last->next;
     }
-    node pop()
+
+    T pop()
     {
-        node *RemovedNode = last;
+        node<T> *RemovedNode = last;
         delete last;
         last = RemovedNode->prev;
         size--;
-        return *RemovedNode;
+        return RemovedNode->data;
+    }
+    T top()
+    {
+        return last->data;
     }
     bool isEmpty()
     {
@@ -113,7 +135,7 @@ public:
         if (isEmpty())
             cout << "empty pile -_- ! " << endl;
         cout << endl;
-        node *temp = last;
+        node<T> *temp = last;
         while (temp != nullptr)
         {
             cout << "|  " << temp->data << " |" << endl;

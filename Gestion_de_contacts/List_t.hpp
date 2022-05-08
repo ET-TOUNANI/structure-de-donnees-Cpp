@@ -24,6 +24,7 @@ public:
         }
     }
     void add(string, string, string);
+    void add2(string, string, string);
     string toString() const;
     void deleteList(string);
     Node_t *search(string) const;
@@ -72,6 +73,48 @@ void List_t::add(string name, string phone, string email = " ")
 
         size++;
         head = new Node_t(newNode, nullptr, nullptr);
+        return;
+    }
+}
+void List_t::add2(string name, string phone, string email = " ")
+{
+    if (head == nullptr)
+    {
+        head = new Node_t(name, phone, email);
+        size++;
+        return;
+    }
+    Node_t *temp = nullptr;
+    Node_t *curr = head;
+    while (curr->next != nullptr)
+    {
+        if (curr->contact->name < name)
+        {
+            curr = curr->next;
+            continue;
+        }
+        else
+        {
+            temp = curr->next;
+            curr->next = new Node_t(name, phone, email);
+            curr->next->next = temp;
+            size++;
+            curr->next->prev = curr;
+            return;
+        }
+    }
+    if (curr->contact->name < name)
+    {
+        curr->next = new Node_t(name, phone, email);
+        curr->next->prev = curr;
+        return;
+    }
+    else
+    {
+        size++;
+        temp = curr->prev;
+        temp->next = new Node_t(name, phone, email);
+        temp->next->next = curr;
         return;
     }
 }

@@ -40,302 +40,194 @@ using namespace std;
 
 // type Node
 
-typedef int element_t;
-
-typedef struct noed
+struct monome
 {
-    element_t data;
-    struct noed *next;
-} noed;
-typedef struct liste_t
+    float coef;
+    int deg;
+};
+class node
 {
-    noed *head;
-    noed *last;
-    int length;
+public:
+    monome m;
+    node *next;
+    node(monome a)
+    {
+        m.coef = a.coef;
+        m.deg = a.deg;
+        next = nullptr;
+    }
+    void print()
+    {
+        cout << m.coef << "X^" << m.deg;
+    }
+};
 
-} liste_t;
+// template <class T>
 
 // class Linked_
 class Linked_List
 {
-private:
-    liste_t l;
+protected:
+    node *head;
+    node *rear;
+    int size;
 
 public:
     Linked_List()
     {
-        l.length = 0;
-        l.head = NULL;
-        l.last = NULL;
+        size = 0;
+        head = nullptr;
+        rear = nullptr;
     }
 
-    Linked_List(element_t e)
+    void push(monome m)
     {
-        l.length = 0;
-        l.head = new noed;
-        l.head->data = e;
-        l.head->next = NULL;
-        l.last = l.head;
-        l.length++;
-    }
-    // constructeur par copier
-    Linked_List(const Linked_List &list)
-    {
-        if (list.l.length == 0)
+        if (estVide())
         {
-            cout << "list is vide" << endl;
+            head = new node(m);
+            rear = head;
+            size++;
             return;
         }
 
-        l.length = list.l.length;
-
-        l.head = new noed;
-        l.head->data = list.l.head->data;
-        l.head->next = new noed;
-        noed *curr = list.l.head->next;
-        noed *CurrOfnewList = l.head->next;
-        while (curr->next != NULL)
+        rear->next = new node(m);
+        rear = rear->next;
+        size++;
+    }
+    void push(node *n, monome m)
+    {
+        if (n == nullptr)
         {
-            CurrOfnewList->next = new noed;
-            CurrOfnewList->data = curr->data;
-            curr = curr->next;
-            CurrOfnewList = CurrOfnewList->next;
+            return;
         }
-        CurrOfnewList->data = curr->data;
-        l.last = CurrOfnewList;
+        node *temp = n->next;
+        n->next = new node(m);
+        n->next->next = temp;
+        size++;
     }
     bool estVide()
     {
-        if (this->l.length > 0)
-            return 0; // n'est pas vide
-        return 1;     // la liste est vide
+        if (size == 0)
+            return true; // n'est pas vide
+        return false;    // la liste est vide
     }
-    element_t get_first_val()
-    {
-        if (this->estVide() == 1)
-        {
-            cout << "la liste est vide !!" << endl;
-            return -1;
-        }
 
-        return l.head->data;
-    }
-    noed *get_head()
+    void insert_debut(monome e)
     {
-        if (this->estVide() == 1)
-        {
-            cout << "la liste est vide !!" << endl;
-            return NULL;
-        }
-
-        return this->l.head;
+        node *temp = head;
+        head = new node(e);
+        head->next = temp;
+        size++;
     }
-    noed *get_last()
+    void print()
     {
-        if (this->estVide() == 1)
-        {
-            cout << "la liste est vide !!" << endl;
-            return NULL;
-        }
-
-        return this->l.last;
-    }
-    int get_length()
-    {
-        return l.length;
-    }
-    void insert_fin(element_t e)
-    {
-        if (l.length > 0)
-        {
-            noed *curr = l.head;
-            while (curr->next != NULL)
-            {
-                curr = curr->next;
-            }
-            curr->next = new noed;
-            l.last = curr->next;
-            l.last->data = e;
-            l.last->next = NULL;
-            l.length++;
-            return;
-        }
-        l.head = new noed;
-        l.head->data = e;
-        l.head->next = NULL;
-        l.last = l.head;
-    }
-    void insert_debut(element_t e)
-    {
-        if (l.length > 0)
-        {
-            noed *curr = l.head;
-
-            l.head = new noed;
-            l.head->data = e;
-            l.head->next = curr;
-            l.length++;
-            return;
-        }
-        l.head = new noed;
-        l.head->data = e;
-        l.head->next = NULL;
-        l.last = l.head;
-    }
-    void read()
-    {
-        if (this->estVide() == 1)
+        if (estVide())
         {
             cout << "la liste est vide !!";
             return;
         }
 
-        noed *curr = l.head;
-        while (curr->next != NULL)
+        node *curr = head;
+        while (curr->next != nullptr)
         {
-            cout << curr->data << " -> ";
+            curr->print();
+            cout << " + ";
             curr = curr->next;
         }
-        cout << curr->data << endl;
-    }
-    void delete_val(element_t e)
-    {
-        if (this->estVide() == 1)
-        {
-            cout << "la liste est vide !!";
-            return;
-        }
-
-        noed *curr = l.head, *pred = l.head;
-        while (curr != NULL)
-        {
-            if (curr->data == e && pred == curr)
-            {
-                pred->next = curr->next;
-
-                l.head = pred->next;
-                l.length--;
-                delete (pred);
-                return;
-            }
-            else if (curr->data == e && curr->next != NULL)
-            {
-                pred->next = curr->next;
-                delete (curr);
-                l.length--;
-                return;
-            }
-            else if (curr->data == e && curr->next == NULL)
-            {
-                pred->next = NULL;
-                delete (curr);
-                l.length--;
-                return;
-            }
-
-            pred = curr;
-            curr = curr->next;
-        }
-    }
-    void fesionner2_list(Linked_List *l2)
-    {
-        int nbrElements = l2->get_length();
-        noed *curr = l2->get_head();
-
-        while (nbrElements > 0)
-        {
-            while (curr != NULL)
-            {
-                this->insert_fin(curr->data);
-                curr = curr->next;
-            }
-            nbrElements--;
-        }
-    }
-    void sortlist()
-    {
-        if (this->estVide() == 1)
-        {
-            cout << "la liste est vide !!";
-            return;
-        }
-        // Node current will point to head
-        noed *current = get_head(), *index = NULL;
-        int temp;
-
-        while (current != NULL)
-        {
-            // Node index will point to node next to current
-            index = current->next;
-            while (index != NULL)
-            {
-                // If current node's data is greater than index's
-                // noed data, swap the data between them
-                if (current->data > index->data)
-                {
-
-                    temp = current->data;
-                    current->data = index->data;
-                    index->data = temp;
-                }
-                index = index->next;
-            }
-            current = current->next;
-        }
-    }
-
-    ~Linked_List()
-    {
-        string choix;
-        cout << "voullez vous vraiment supprimer tout la liste ! (y,n) :" << endl;
-        cin >> choix;
-        if (choix == "n")
-        {
-
-            return;
-        }
-
-        while (this->get_length() > 0)
-        {
-            delete_val(this->get_first_val());
-        }
-        cout << "tous les élements sont supprimer :(" << endl;
+        curr->print();
+        cout << endl;
     }
 };
 class Polynome : public Linked_List
 {
+public:
+    void add(monome e)
+    {
+
+        if (estVide())
+        {
+            head = new node(e);
+            rear = head;
+            size++;
+            return;
+        }
+        else
+        {
+            node *temp = head;
+            node *prev = nullptr;
+            int count = 1;
+            while (temp != nullptr)
+            {
+                if (temp->m.deg > e.deg && prev == nullptr)
+                {
+                    insert_debut(e);
+                    return;
+                }
+                else if (temp->m.deg > e.deg && prev != nullptr)
+                {
+                    prev->next = new node(e);
+                    prev->next->next = temp;
+                    size++;
+                    return;
+                }
+                else if (temp->m.deg == e.deg && prev == nullptr)
+                {
+                    temp->m.coef += e.coef;
+                    if (temp->m.coef == 0)
+                    {
+                        head = temp->next;
+                        delete temp;
+                        size--;
+                    }
+                    return;
+                }
+                else if (temp->m.deg == e.deg && prev != nullptr)
+                {
+                    temp->m.coef += e.coef;
+                    if (temp->m.coef == 0)
+                    {
+                        prev->next = temp->next;
+                        delete temp;
+                        size--;
+                    }
+                    return;
+                }
+                else if (temp->m.deg < e.deg && count == size)
+                {
+                    temp->next = new node(e);
+                    rear = temp->next;
+                    size++;
+                    return;
+                }
+                else if (temp->m.deg < e.deg && temp->m.deg + 1 == e.deg)
+                {
+                    push(temp, e);
+                    return;
+                }
+                count++;
+                prev = temp;
+                temp = temp->next;
+            }
+        }
+    }
 };
+monome create(float cf, int dg)
+{
+    monome m;
+    m.coef = cf;
+    m.deg = dg;
+    return m;
+}
 int main()
 {
-    Linked_List *v = new Linked_List(40);
-    v->insert_fin(1);
-    v->insert_fin(5);
-    v->insert_fin(7);
-    v->insert_fin(50);
-    v->insert_fin(71);
-    v->insert_debut(44);
+    Polynome p;
 
-    v->read();
-    Linked_List *v2 = new Linked_List(*v); // constricteur par copier
-    v->~Linked_List();                     // destrecteur
-    v2->read();
-    /*
-        pour fesionner deux listes
-                Linked_List *v2 = new Linked_List(770);
-                v2->insert_fin(4111);
-                v2->insert_fin(11);
-                v2->insert_fin(2);
-                v->fesionner2_list(v2);
-        */
-    /*
-        pour detruire tout la liste
-               v->detruire();
-    */
-    /*
-        pour trie  la liste
-            cout << "vous etes en train de trie la liste :) " << endl;
-            v->sortlist();
-    */
-    // v->read();
+    p.add(create(7, 1));
+    p.add(create(2.3, 2));
+    p.add(create(8, 5));
+    p.add(create(-7, 1));
+    p.add(create(-8, 5));
+    p.print();
+
     return 0;
 }

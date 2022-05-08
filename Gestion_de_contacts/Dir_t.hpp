@@ -29,7 +29,7 @@ public:
     {
         nbre++;
         int index = hashFunction(name);
-        liste[index].add(name, phone, email);
+        liste[index].add2(name, phone, email);
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void deleteList(string email, string name)
